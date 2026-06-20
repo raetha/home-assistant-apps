@@ -1,0 +1,50 @@
+configuration:
+  mqtt_host:
+    name: MQTT Host
+    description: >-
+      Hostname or IP of your MQTT broker. Leave blank to auto-discover the
+      Mosquitto broker app.
+  mqtt_port:
+    name: MQTT Port
+    description: MQTT broker port (default 1883).
+  mqtt_username:
+    name: MQTT Username
+    description: MQTT username. Leave blank if not required.
+  mqtt_password:
+    name: MQTT Password
+    description: MQTT password. Leave blank if not required.
+  mqtt_client_id:
+    name: MQTT Client ID
+    description: MQTT client identifier used by this bridge.
+  mqtt_clean_session:
+    name: MQTT Clean Session
+    description: Start with a clean MQTT session on each connection.
+  mqtt_keepalive:
+    name: MQTT Keepalive
+    description: MQTT keepalive interval in seconds.
+  mqtt_qos:
+    name: MQTT QoS
+    description: MQTT Quality of Service level (0, 1, or 2).
+  mqtt_retain:
+    name: MQTT Retain
+    description: Publish sensor states with the MQTT retain flag.
+  self_topic_root:
+    name: Topic Root
+    description: Root MQTT topic prefix for bridge and sensor messages.
+  hass_topic_root:
+    name: HA Discovery Topic Root
+    description: Root MQTT topic prefix for Home Assistant discovery messages.
+  hass_discovery:
+    name: HA Discovery
+    description: Publish Home Assistant MQTT discovery payloads.
+  publish_sensor_name:
+    name: Publish Sensor Name
+    description: Include the sensor friendly name in MQTT payloads.
+  usb_dongle:
+    name: USB Dongle Path
+    description: >-
+      HID device path for the Wyze Sense Bridge (e.g. /dev/hidraw0). Check
+      Settings → System → Hardware to find the correct path.
+  log_level:
+    name: Log Level
+    description: Logging verbosity (DEBUG, INFO, WARNING, or ERROR).

@@ -1,0 +1,56 @@
+name: WyzeSense2MQTT (devel)
+version: "4.0.0-devel"
+slug: wyzesense2mqtt-devel
+description: >-
+  ⚠️ UNSTABLE — development/testing only. Tracks the devel branch of
+  WyzeSense2MQTT. May contain incomplete features or breaking changes.
+  Do not use in production.
+url: https://github.com/raetha/wyzesense2mqtt
+arch:
+  - amd64
+  - aarch64
+  - armv7
+init: false
+startup: application
+boot: manual
+
+image: "ghcr.io/raetha/wyzesense2mqtt:{version}"
+
+services:
+  - mqtt
+
+usb: true
+
+options:
+  mqtt_host: ""
+  mqtt_port: 1883
+  mqtt_username: ""
+  mqtt_password: ""
+  mqtt_client_id: ws2m-devel
+  mqtt_clean_session: false
+  mqtt_keepalive: 60
+  mqtt_qos: 0
+  mqtt_retain: true
+  self_topic_root: ws2m
+  hass_topic_root: homeassistant
+  hass_discovery: true
+  publish_sensor_name: true
+  usb_dongle: /dev/hidraw0
+  log_level: DEBUG
+
+schema:
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_username: str
+  mqtt_password: str
+  mqtt_client_id: str
+  mqtt_clean_session: bool
+  mqtt_keepalive: int
+  mqtt_qos: int
+  mqtt_retain: bool
+  self_topic_root: str
+  hass_topic_root: str
+  hass_discovery: bool
+  publish_sensor_name: bool
+  usb_dongle: str
+  log_level: "list(DEBUG|INFO|WARNING|ERROR)"
