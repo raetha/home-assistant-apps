@@ -9,19 +9,16 @@ url: https://github.com/raetha/wyzesense2mqtt
 arch:
   - amd64
   - aarch64
-  - armv7
 init: false
-startup: application
-boot: auto
 
 # Pull the pre-built image from GHCR rather than building locally.
 # The image tag is kept in sync with the version above.
 image: "ghcr.io/raetha/wyzesense2mqtt"
 
 # Declares use of the Supervisor MQTT services API for Mosquitto
-# auto-discovery. Does not require hassio_api: true.
+# auto-discovery.
 services:
-  - mqtt
+  - mqtt:want
 
 # usb: true enables the USB device picker in the app UI.
 usb: true

@@ -9,15 +9,13 @@ url: https://github.com/raetha/wyzesense2mqtt
 arch:
   - amd64
   - aarch64
-  - armv7
 init: false
-startup: application
 boot: manual
 
 image: "ghcr.io/raetha/wyzesense2mqtt:{version}"
 
 services:
-  - mqtt
+  - mqtt:want
 
 usb: true
 
