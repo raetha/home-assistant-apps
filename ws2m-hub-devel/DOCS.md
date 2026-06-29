@@ -1,10 +1,13 @@
-# WyzeSense2MQTT (devel)
+# WS2M Hub (devel)
 
 > ⚠️ **This is an unstable development build.** It tracks the `devel` branch
-> of WyzeSense2MQTT and may contain incomplete features, breaking changes, or
+> of WS2M Hub and may contain incomplete features, breaking changes, or
 > bugs at any time. **Do not use in production.**
 
-For stable usage, install the **WyzeSense2MQTT** app instead.
+For stable usage, install the **WS2M Hub** app instead.
+
+For full documentation see the
+[WS2M Hub documentation](https://github.com/raetha/wyzesense2mqtt#readme).
 
 ## Differences from the Stable App
 
@@ -17,9 +20,9 @@ For stable usage, install the **WyzeSense2MQTT** app instead.
 ## Configuration
 
 Configuration options are identical to the stable app. See the
-[stable app documentation](../wyzesense2mqtt/DOCS.md) for full details.
+[stable app documentation](../ws2m-hub/DOCS.md) for the full option reference.
 
 ## Reporting Issues
 
-Please report issues against the `devel` branch of the source project:
+Please open issues against the source project:
 https://github.com/raetha/wyzesense2mqtt/issues

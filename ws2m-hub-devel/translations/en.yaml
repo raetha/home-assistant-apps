@@ -15,36 +15,27 @@ configuration:
     description: MQTT password. Leave blank if not required.
   mqtt_client_id:
     name: MQTT Client ID
-    description: MQTT client identifier used by this bridge.
+    description: MQTT client identifier used by this hub.
   mqtt_clean_session:
     name: MQTT Clean Session
     description: Start with a clean MQTT session on each connection.
   mqtt_keepalive:
     name: MQTT Keepalive
     description: MQTT keepalive interval in seconds.
-  mqtt_qos:
-    name: MQTT QoS
-    description: MQTT Quality of Service level (0, 1, or 2).
-  mqtt_retain:
-    name: MQTT Retain
-    description: Publish sensor states with the MQTT retain flag.
   self_topic_root:
     name: Topic Root
-    description: Root MQTT topic prefix for bridge and sensor messages.
+    description: Root MQTT topic prefix for hub and sensor messages.
   hass_topic_root:
     name: HA Discovery Topic Root
     description: Root MQTT topic prefix for Home Assistant discovery messages.
   hass_discovery:
     name: HA Discovery
     description: Publish Home Assistant MQTT discovery payloads.
-  publish_sensor_name:
-    name: Publish Sensor Name
-    description: Include the sensor friendly name in MQTT payloads.
   usb_dongle:
-    name: USB Dongle Path
+    name: USB Dongle
     description: >-
-      HID device path for the Wyze Sense Bridge (e.g. /dev/hidraw0). Check
-      Settings → System → Hardware to find the correct path.
+      HID device path for the Wyze Sense Bridge (e.g. /dev/hidraw0), or
+      "auto" to detect all connected dongles automatically.
   log_level:
     name: Log Level
     description: Logging verbosity (DEBUG, INFO, WARNING, or ERROR).

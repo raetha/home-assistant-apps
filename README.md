@@ -11,13 +11,12 @@ https://github.com/raetha/home-assistant-apps
 
 ## Apps
 
-### [WyzeSense2MQTT](./wyzesense2mqtt)
+### [WS2M Hub](./ws2m-hub)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
-![Supports armv7 Architecture][armv7-shield]
 
-_Local Wyze Sense Bridge gateway with full Home Assistant MQTT discovery support. No Wyze account or cloud access required._
+_Local Wyze Sense hub with full Home Assistant MQTT discovery support. No Wyze account or cloud access required._
 
 Auto-discovers the Mosquitto broker app — no MQTT configuration needed when running alongside Mosquitto.
 
@@ -25,11 +24,10 @@ Source project: [raetha/wyzesense2mqtt](https://github.com/raetha/wyzesense2mqtt
 
 ---
 
-### [WyzeSense2MQTT (devel)](./wyzesense2mqtt-devel)
+### [WS2M Hub (devel)](./ws2m-hub-devel)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
-![Supports armv7 Architecture][armv7-shield]
 
 > ⚠️ **Unstable — for development and testing only.** Tracks the `devel`
 > branch of the source project. May contain incomplete features, breaking
@@ -39,4 +37,3 @@ Source project: [raetha/wyzesense2mqtt](https://github.com/raetha/wyzesense2mqtt
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
