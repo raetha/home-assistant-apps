@@ -1,5 +1,5 @@
 name: WyzeSense2MQTT (devel)
-version: "4.0.0-devel"
+version: "4.0.0-devel.20260629"
 slug: wyzesense2mqtt-devel
 description: >-
   ⚠️ UNSTABLE — development/testing only. Tracks the devel branch of
