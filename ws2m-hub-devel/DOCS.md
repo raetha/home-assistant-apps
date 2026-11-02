@@ -1,7 +1,7 @@
 # WS2M Hub (devel)
 
-> ⚠️ **This is an unstable development build.** It tracks the `devel` branch
-> of WS2M Hub and may contain incomplete features, breaking changes, or
+> ⚠️ **This is an unstable development build.** It installs the test builds
+> from the `dev` branch of WS2M Hub and may contain incomplete features, breaking changes, or
 > bugs at any time. **Do not use in production.**
 
 For stable usage, install the **WS2M Hub** app instead.
@@ -11,7 +11,9 @@ For full documentation see the
 
 ## Differences from the Stable App
 
-- Pulls the `devel` image tag (built from the `devel` branch).
+- Installs each test build of the `dev` branch: they show up as updates
+  numbered `<version>-dev.<build>`. What's in them is listed under
+  [Unreleased in the changelog](https://github.com/raetha/wyzesense2mqtt/blob/dev/CHANGELOG.md).
 - `boot` is set to `manual` — will not auto-start on HAOS boot.
 - `log_level` defaults to `DEBUG` for easier troubleshooting.
 - `mqtt_client_id` defaults to `ws2m-devel` to avoid collisions if both

@@ -1,0 +1,44 @@
+name: Lint
+# Every push to main or dev, every pull request, and daily (the schedule runs main's copy):
+# Home Assistant's app linter over every app folder.
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  schedule:
+    - cron: "17 4 * * *"
+
+permissions:
+  contents: read
+
+# Actions are pinned to exact commits (version in the comment); Dependabot
+# (.github/dependabot.yml) proposes updates weekly.
+
+jobs:
+  find:
+    name: Find apps
+    runs-on: ubuntu-24.04
+    outputs:
+      apps: ${{ steps.apps.outputs.addons_list }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Find app folders
+        id: apps
+        uses: home-assistant/actions/helpers/find-addons@86d4564712fa02543c808e3a693dd04f9d3f8361 # master, 2026-10-26
+
+  lint:
+    name: Lint ${{ matrix.path }}
+    needs: find
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        path: ${{ fromJson(needs.find.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Home Assistant app linter
+        uses: frenck/action-addon-linter@b9cfd1bc62ba60d2c4fc96317b5f7ada5923f4a7 # v2.21.1
+        with:
+          path: "./${{ matrix.path }}"

@@ -2,7 +2,7 @@
 
 > ⚠️ **Unstable — for development and testing only.**
 >
-> Tracks the `devel` branch image. May contain incomplete features, breaking
+> Installs the test builds from the `dev` branch. May contain incomplete features, breaking
 > changes, or bugs at any time. Do not use in production.
 
 ![Supports aarch64 Architecture][aarch64-shield]
