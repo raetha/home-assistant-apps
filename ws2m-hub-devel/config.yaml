@@ -1,8 +1,8 @@
 name: WS2M Hub (devel)
-version: "4.0.1-devel.20260729"
+version: "devel"
 slug: ws2m-hub-devel
 description: >-
-  ⚠️ UNSTABLE — development/testing only. Tracks the devel branch of
+  ⚠️ UNSTABLE — development/testing only. Tracks the dev branch of
   WS2M Hub. May contain incomplete features or breaking changes.
   Do not use in production.
 url: https://github.com/raetha/wyzesense2mqtt
@@ -12,7 +12,9 @@ arch:
 init: false
 boot: manual
 
-image: "ghcr.io/raetha/ws2m-hub:{version}"
+# Supervisor pulls <image>:<version>; the version is the test build's image tag,
+# set by .github/workflows/sync.yml from ws2m's dev builds (<X.Y.Z>-dev.<build>).
+image: "ghcr.io/raetha/ws2m-hub"
 
 services:
   - mqtt:want
