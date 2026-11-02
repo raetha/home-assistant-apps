@@ -29,8 +29,8 @@ Source project: [raetha/wyzesense2mqtt](https://github.com/raetha/wyzesense2mqtt
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
-> ⚠️ **Unstable — for development and testing only.** Tracks the `devel`
-> branch of the source project. May contain incomplete features, breaking
+> ⚠️ **Unstable — for development and testing only.** Installs the test
+> builds from the `dev` branch of the source project. May contain incomplete features, breaking
 > changes, or bugs. Do not use in production.
 
 ---

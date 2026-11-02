@@ -1,0 +1,122 @@
+name: Sync app versions
+# raetha/wyzesense2mqtt sends `ws2m-release` (a release, version X.Y.Z) and `ws2m-dev`
+# (a test build, X.Y.Z-dev.<build>) after publishing the images; this sets the version
+# of WS2M Hub or WS2M Hub (devel), which Supervisor pulls as the image tag.
+# `main` takes pull requests only, so the change goes in as a pull request merged here;
+# `dev` gets the same change (reset to main when it has nothing else). Repository
+# dispatches run main's copy of this file, so changes here count once they're on main.
+# Manual runs set any app's version by hand (e.g. to go back to an earlier build).
+
+on:
+  repository_dispatch:
+    types: [ws2m-release, ws2m-dev]
+  workflow_dispatch:
+    inputs:
+      app:
+        description: App folder
+        type: choice
+        options: [ws2m-hub, ws2m-hub-devel]
+      version:
+        description: Version (an image tag of ghcr.io/raetha/ws2m-hub)
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-app-versions
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Which app, which version
+        id: what
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PAYLOAD_VERSION: ${{ github.event.client_payload.version }}
+          INPUT_APP: ${{ inputs.app }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -e
+          if [ "$EVENT" = workflow_dispatch ]; then
+            app="$INPUT_APP"; version="$INPUT_VERSION"
+          elif [ "$ACTION" = ws2m-release ]; then
+            app=ws2m-hub; version="$PAYLOAD_VERSION"
+          else
+            app=ws2m-hub-devel; version="$PAYLOAD_VERSION"
+          fi
+          # an image tag only: it goes into config.yaml and a sed expression
+          if ! printf '%s' "$version" | grep -Eqx 'v?[0-9]+\.[0-9]+\.[0-9]+(-dev\.[0-9]+)?|dev|devel'; then
+            echo "::error::not a ws2m image tag: '$version'"; exit 1
+          fi
+          [ -f "$app/config.yaml" ] || { echo "::error::no app $app"; exit 1; }
+          echo "app=$app" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Set the version on main (pull request, merged)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APP: ${{ steps.what.outputs.app }}
+          VERSION: ${{ steps.what.outputs.version }}
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # dev follows main afterwards if it holds nothing main doesn't
+          if git rev-parse -q --verify origin/dev >/dev/null && git diff --quiet origin/main origin/dev; then
+            echo "DEV_MATCHES_MAIN=true" >> "$GITHUB_ENV"
+          fi
+          branch="sync/$APP-$VERSION"
+          git switch -q -c "$branch" origin/main
+          sed -i "s/^version: .*/version: \"$VERSION\"/" "$APP/config.yaml"
+          if git diff --quiet; then
+            echo "$APP is already $VERSION on main"
+            exit 0
+          fi
+          git commit -q -am "$APP $VERSION"
+          git push -q origin "$branch"
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls" -f title="$APP $VERSION" -f head="$branch" -f base=main \
+            -f body="Set by the sync workflow from raetha/wyzesense2mqtt's build." --jq .number)
+          # GitHub needs a moment to work out a new pull request's mergeability
+          for attempt in 1 2 3 4 5 6; do
+            if gh api -X PUT "repos/$GITHUB_REPOSITORY/pulls/$pr/merge" -f merge_method=squash >/dev/null; then
+              echo "merged #$pr: $APP $VERSION"
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::could not merge #$pr"
+          exit 1
+
+      - name: Bring dev along
+        env:
+          APP: ${{ steps.what.outputs.app }}
+          VERSION: ${{ steps.what.outputs.version }}
+        run: |
+          set -e
+          git fetch -q origin
+          git rev-parse -q --verify origin/dev >/dev/null || { echo "no dev branch"; exit 0; }
+          if [ "$DEV_MATCHES_MAIN" = true ]; then
+            git push --force origin origin/main:refs/heads/dev
+            echo "dev reset to main"
+            exit 0
+          fi
+          git switch -q -C sync-dev origin/dev
+          sed -i "s/^version: .*/version: \"$VERSION\"/" "$APP/config.yaml"
+          if git diff --quiet; then
+            echo "$APP is already $VERSION on dev"
+          else
+            git commit -q -am "$APP $VERSION"
+            git push -q origin HEAD:refs/heads/dev
+            echo "dev has other work: committed $APP $VERSION on it"
+          fi
