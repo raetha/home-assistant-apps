@@ -19,6 +19,8 @@ Raetha's Home Assistant app repository. Its apps run images built elsewhere: **W
 
 - Supervisor pulls `<image>:<version>` from `config.yaml`: the version must be an existing image tag (ws2m releases `X.Y.Z`; test builds `X.Y.Z-dev.<build>`; 4.0.1 only exists as `v4.0.1`). `image:` may hold `{arch}` only; any other placeholder breaks the app.
 - Supervisor offers an update whenever the version string changes (it doesn't compare them).
+- An option removed from `schema` is dropped from users' saved options (logged), and a new option takes its `options` default: renaming an option resets it for everyone.
+- Option names are ws2m's config keys: `hub/service.sh` exports each as `WS2M_<NAME>`; an option it doesn't read is ignored, one the app doesn't send overrides the default with an empty value.
 - `repository_dispatch` runs `main`'s copy of a workflow.
 - The `main` ruleset requires pull requests, so workflows can't push to `main`; `sync.yml` opens and merges one, which needs "Allow GitHub Actions to create and approve pull requests" on.
 - Sessions can't read Actions settings, secrets or security alerts, or rename branches, through the proxy: ask the owner.

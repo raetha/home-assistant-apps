@@ -45,7 +45,7 @@ To use an **external broker**, set `mqtt_host` plus any required credentials.
 
 | Option | Default | Description |
 |---|---|---|
-| `usb_dongle` | `auto` | HID device path, or `auto` to detect all connected dongles. |
+| `dongle` | `auto` | Device path of the dongle (e.g. `/dev/hidraw0`), or `auto` to use every connected dongle. Called `usb_dongle` before November 2026; a path set there needs setting again. |
 
 `auto` (the default) scans for all connected WyzeSense bridge dongles at
 startup. Set an explicit path (e.g. `/dev/hidraw0`) only if you need to
