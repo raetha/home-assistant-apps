@@ -34,7 +34,7 @@ options:
   self_topic_root: ws2m
   hass_topic_root: homeassistant
   hass_discovery: true
-  usb_dongle: auto
+  dongle: auto
   log_level: INFO
 
 schema:
@@ -48,5 +48,5 @@ schema:
   self_topic_root: str
   hass_topic_root: str
   hass_discovery: bool
-  usb_dongle: str
+  dongle: str
   log_level: "list(DEBUG|INFO|WARNING|ERROR)"

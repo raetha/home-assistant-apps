@@ -31,11 +31,11 @@ configuration:
   hass_discovery:
     name: HA Discovery
     description: Publish Home Assistant MQTT discovery payloads.
-  usb_dongle:
-    name: USB Dongle
+  dongle:
+    name: Dongle
     description: >-
-      HID device path for the Wyze Sense Bridge (e.g. /dev/hidraw0), or
-      "auto" to detect all connected dongles automatically.
+      Device path of the Wyze Sense Bridge plugged into this host (e.g.
+      /dev/hidraw0), or "auto" to use every connected one.
   log_level:
     name: Log Level
     description: Logging verbosity (DEBUG, INFO, WARNING, or ERROR).
