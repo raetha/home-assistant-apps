@@ -40,7 +40,7 @@ It opens a pull request into `main` with the change and squash-merges it, then r
 
 Repository settings (owner, one time):
 
-- **Settings → Rules → Rulesets**: one for `main`, the default branch (no deletion, no force pushes, a pull request before merging, squash only). **Require status checks:** `CI passed` (the gate job in `lint.yml`). **Require code scanning results:** CodeQL.
+- **Settings → Rules → Rulesets**: one for `main`, the default branch (no deletion, no force pushes, a pull request before merging, squash only). **Require code scanning results:** CodeQL. **No required status checks:** `sync.yml` opens its pull requests with the workflow token, and GitHub doesn't run workflows for those, so a required check (even `CI passed`) would never report and every app update would stay blocked. The `Lint` workflow still runs on every push, `main` included, and on the owner's pull requests (its `CI passed` job sums it up).
 - **Settings → General → Pull Requests**: allow only squash merging, and **Automatically delete head branches** (the sync workflow's `sync/…` branches go too).
 - **Settings → Branches → classic branch protection rule for `dev`**: nothing required, deletions not allowed, **force pushes allowed** (the sync workflow resets `dev` to `main`).
 - **Settings → Actions → General → Workflow permissions**: **Allow GitHub Actions to create and approve pull requests**, so the sync workflow can open its pull requests.
