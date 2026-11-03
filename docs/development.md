@@ -40,7 +40,7 @@ It opens a pull request into `main` with the change and squash-merges it, then r
 
 Repository settings (owner, one time):
 
-- **Settings → Rules → Rulesets**: one for `main`, the default branch (no deletion, no force pushes, a pull request before merging, squash only).
+- **Settings → Rules → Rulesets**: one for `main`, the default branch (no deletion, no force pushes, a pull request before merging, squash only). **Require status checks:** `CI passed` (the gate job in `lint.yml`). **Require code scanning results:** CodeQL.
 - **Settings → General → Pull Requests**: allow only squash merging, and **Automatically delete head branches** (the sync workflow's `sync/…` branches go too).
 - **Settings → Branches → classic branch protection rule for `dev`**: nothing required, deletions not allowed, **force pushes allowed** (the sync workflow resets `dev` to `main`).
 - **Settings → Actions → General → Workflow permissions**: **Allow GitHub Actions to create and approve pull requests**, so the sync workflow can open its pull requests.
