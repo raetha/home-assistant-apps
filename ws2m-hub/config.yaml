@@ -1,5 +1,5 @@
 name: WS2M Hub
-version: "v4.0.1"
+version: "4.0.2"
 slug: ws2m-hub
 description: >-
   Local Wyze Sense hub that publishes sensor events to MQTT with full
