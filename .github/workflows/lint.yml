@@ -23,6 +23,8 @@ jobs:
       apps: ${{ steps.apps.outputs.addons_list }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Find app folders
         id: apps
@@ -37,8 +39,26 @@ jobs:
         path: ${{ fromJson(needs.find.outputs.apps) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Home Assistant app linter
         uses: frenck/action-addon-linter@b9cfd1bc62ba60d2c4fc96317b5f7ada5923f4a7 # v2.21.1
         with:
           path: "./${{ matrix.path }}"
+
+  # The one check the main ruleset requires: passes only when every check job above did, so
+  # jobs can be added or renamed without touching the ruleset.
+  ci:
+    name: CI passed
+    if: always()
+    needs: [find, lint]
+    runs-on: ubuntu-24.04
+    permissions: {}
+    steps:
+      - name: Every check job passed
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: |
+          echo "$RESULTS"
+          if echo "$RESULTS" | grep -qE '"(failure|cancelled)"'; then exit 1; fi

@@ -84,9 +84,13 @@ jobs:
             exit 0
           fi
           git commit -q -am "$APP $VERSION"
-          git push -q origin "$branch"
-          pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls" -f title="$APP $VERSION" -f head="$branch" -f base=main \
-            -f body="Set by the sync workflow from raetha/wyzesense2mqtt's build." --jq .number)
+          # --force and reusing an open pull request let a re-run finish what a failed run started
+          git push -q --force origin "$branch"
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&head=$GITHUB_REPOSITORY_OWNER:$branch" --jq '.[0].number // empty')
+          if [ -z "$pr" ]; then
+            pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls" -f title="$APP $VERSION" -f head="$branch" -f base=main \
+              -f body="Set by the sync workflow from raetha/wyzesense2mqtt's build." --jq .number)
+          fi
           # GitHub needs a moment to work out a new pull request's mergeability
           for attempt in 1 2 3 4 5 6; do
             if gh api -X PUT "repos/$GITHUB_REPOSITORY/pulls/$pr/merge" -f merge_method=squash >/dev/null; then
